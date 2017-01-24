@@ -17,6 +17,8 @@ import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_ADDRESS;
  */
 public class AutocompleteDemoActivity extends AppCompatActivity implements PlaceSelectionListener {
 
+  // test
+
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_autocomplete);
