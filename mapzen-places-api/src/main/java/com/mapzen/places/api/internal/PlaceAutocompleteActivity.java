@@ -2,9 +2,11 @@ package com.mapzen.places.api.internal;
 
 import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.android.lost.api.Status;
+import com.mapzen.android.search.SearchRequestHandler;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
+import com.mapzen.pelias.PeliasRequestHandler;
 import com.mapzen.pelias.SuggestFilter;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
@@ -24,6 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.util.Map;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
@@ -88,6 +92,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
     Pelias pelias = new Pelias();
+    SearchRequestHandler handler = new SearchRequestHandler();
+    handler.setApiKey("mapzen-ZTA7CTR");
+    pelias.setRequestHandler(handler);
     pelias.setDebug(true);
     pelias.setLocationProvider(new PeliasLocationProvider() {
 
