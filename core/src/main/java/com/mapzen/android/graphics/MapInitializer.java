@@ -67,7 +67,7 @@ public class MapInitializer {
 
   private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback) {
     final ArrayList<SceneUpdate> sceneUpdates = new ArrayList<>(1);
-    final String apiKey = MapzenManager.instance(context).getApiKey();
+    final String apiKey = MapzenManager.instance(context, true).getApiKey();
     sceneUpdates.add(new SceneUpdate("global.sdk_mapzen_api_key", apiKey));
     getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
       @Override public void onMapReady(MapController mapController) {

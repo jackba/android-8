@@ -17,7 +17,7 @@ public class SearchInitializer {
    * @param context
    */
   public void initSearch(MapzenSearch search, Context context) {
-    initSearch(search, MapzenManager.instance(context).getApiKey());
+    initSearch(search, MapzenManager.instance(context, true).getApiKey());
   }
 
   /**

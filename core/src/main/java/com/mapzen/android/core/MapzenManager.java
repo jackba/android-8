@@ -34,7 +34,7 @@ public class MapzenManager {
   /**
    * Get singleton instance.
    */
-  public static MapzenManager instance(Context context) {
+  public static MapzenManager instance(Context context, boolean flag) {
     if (instance == null) {
       instance = new MapzenManager(context);
     }

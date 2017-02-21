@@ -29,11 +29,11 @@ public class MapViewTest {
   @Before public void setup() throws Exception {
     mapView = PowerMockito.spy(new MapView(getMockContext()));
     when(mapView.getTangramMapView()).thenReturn(mock(TangramMapView.class));
-    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    MapzenManager.instance(getMockContext(), true).setApiKey("fake-mapzen-api-key");
   }
 
   @After public void tearDown() throws Exception {
-    MapzenManager.instance(getMockContext()).setApiKey(null);
+    MapzenManager.instance(getMockContext(), true).setApiKey(null);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -41,7 +41,7 @@ public class MapViewTest {
   }
 
   @Test public void getMapAsync_shouldInjectMapInitializer() throws Exception {
-    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    MapzenManager.instance(getMockContext(), true).setApiKey("fake-mapzen-api-key");
     mapView.getMapAsync(new TestCallback());
     assertThat(mapView.mapInitializer).isNotNull();
   }

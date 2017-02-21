@@ -14,13 +14,13 @@ public class SearchInitializerTest {
   private MapzenSearch search;
 
   @Before public void setUp() throws Exception {
-    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    MapzenManager.instance(getMockContext(), true).setApiKey("fake-mapzen-api-key");
     searchInitializer = new SearchInitializer();
     search = new MapzenSearch(getMockContext());
   }
 
   @After public void tearDown() throws Exception {
-    MapzenManager.instance(getMockContext()).setApiKey(null);
+    MapzenManager.instance(getMockContext(), true).setApiKey(null);
   }
 
   @Test public void initSearch_shouldSetApiKey() {

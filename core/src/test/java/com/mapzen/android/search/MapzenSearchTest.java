@@ -26,23 +26,23 @@ public class MapzenSearchTest {
   private MapzenSearch search;
 
   @Before public void setUp() throws Exception {
-    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    MapzenManager.instance(getMockContext(), true).setApiKey("fake-mapzen-api-key");
     context = getMockContext();
     pelias = mock(Pelias.class);
     search = new MapzenSearch(context, pelias);
   }
 
   @After public void tearDown() throws Exception {
-    MapzenManager.instance(getMockContext()).setApiKey(null);
+    MapzenManager.instance(getMockContext(), true).setApiKey(null);
   }
 
   @Test public void shouldCreatePelias() {
-    MapzenManager.instance(context).setApiKey("fake-mapzen-api-key");
+    MapzenManager.instance(context, true).setApiKey("fake-mapzen-api-key");
     MapzenSearch mzSearch = new MapzenSearch(context);
     assertThat(mzSearch.getPelias()).isNotNull();
     assertThat(mzSearch.searchInitializer.getRequestHandler().getApiKey())
         .isEqualTo("fake-mapzen-api-key");
-    MapzenManager.instance(context).setApiKey(null);
+    MapzenManager.instance(context, true).setApiKey(null);
   }
 
   @Test public void suggest_shouldCallPelias() {

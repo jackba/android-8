@@ -30,7 +30,7 @@ public class MapzenManagerTest {
     Context context = mock(Context.class);
     Resources resources = new TestResources();
     when(context.getResources()).thenReturn(resources);
-    MapzenManager mapzenManager = MapzenManager.instance(context);
+    MapzenManager mapzenManager = MapzenManager.instance(context, true);
     assertThat(mapzenManager).isNotNull();
   }
 
@@ -39,7 +39,7 @@ public class MapzenManagerTest {
     Context context = mock(Context.class);
     Resources resources = new TestResources();
     when(context.getResources()).thenReturn(resources);
-    MapzenManager mapzenManager = MapzenManager.instance(context);
+    MapzenManager mapzenManager = MapzenManager.instance(context, true);
     mapzenManager.getApiKey();
   }
 
@@ -48,7 +48,7 @@ public class MapzenManagerTest {
     Context context = mock(Context.class);
     Resources resources = new TestResourcesNotFound();
     when(context.getResources()).thenReturn(resources);
-    MapzenManager mapzenManager = MapzenManager.instance(context);
+    MapzenManager mapzenManager = MapzenManager.instance(context, true);
     mapzenManager.getApiKey();
   }
 
@@ -57,7 +57,7 @@ public class MapzenManagerTest {
     TestResources resources = new TestResources();
     resources.testApiKey = "mapzen-fake-api-key";
     when(context.getResources()).thenReturn(resources);
-    MapzenManager mapzenManager = MapzenManager.instance(context);
+    MapzenManager mapzenManager = MapzenManager.instance(context, true);
     assertThat(mapzenManager.getApiKey()).isEqualTo("mapzen-fake-api-key");
   }
 
@@ -66,7 +66,7 @@ public class MapzenManagerTest {
     TestResources resources = new TestResources();
     resources.testApiKey = "mapzen-fake-api-key";
     when(context.getResources()).thenReturn(resources);
-    MapzenManager mapzenManager = MapzenManager.instance(context);
+    MapzenManager mapzenManager = MapzenManager.instance(context, true);
     mapzenManager.setApiKey("mapzen-fake-api-key-2");
     assertThat(mapzenManager.getApiKey()).isEqualTo("mapzen-fake-api-key-2");
   }
