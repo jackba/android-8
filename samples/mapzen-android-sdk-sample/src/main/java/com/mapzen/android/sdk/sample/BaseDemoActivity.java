@@ -13,7 +13,7 @@ public class BaseDemoActivity extends AppCompatActivity {
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     if (BuildConfig.MAPZEN_API_KEY != null &&
         !BuildConfig.MAPZEN_API_KEY.equals(MapzenManager.API_KEY_DEFAULT_VALUE)) {
-      MapzenManager.instance(this).setApiKey(BuildConfig.MAPZEN_API_KEY);
+      MapzenManager.instance(this, true).setApiKey(BuildConfig.MAPZEN_API_KEY);
     }
 
     super.onCreate(savedInstanceState);

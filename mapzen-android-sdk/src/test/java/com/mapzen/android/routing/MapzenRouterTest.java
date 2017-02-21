@@ -23,13 +23,13 @@ public class MapzenRouterTest {
 
   @Before public void setup() {
     Context context = getMockContext();
-    MapzenManager.instance(context).setApiKey("fake-mapzen-api-key");
+    MapzenManager.instance(context, true).setApiKey("fake-mapzen-api-key");
     router = new MapzenRouter(context);
     router.setValhallaRouter(mock(ValhallaRouter.class));
   }
 
   @After public void tearDown() throws Exception {
-    MapzenManager.instance(getMockContext()).setApiKey(null);
+    MapzenManager.instance(getMockContext(), true).setApiKey(null);
   }
 
   @Test public void fetch_shouldInvokeInternalRouter() {

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     configureListView();
 
     if (BuildConfig.MAPZEN_API_KEY != null) {
-      MapzenManager.instance(this).setApiKey(BuildConfig.MAPZEN_API_KEY);
+      MapzenManager.instance(this, true).setApiKey(BuildConfig.MAPZEN_API_KEY);
     }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

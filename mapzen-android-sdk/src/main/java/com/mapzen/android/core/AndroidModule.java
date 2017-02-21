@@ -45,7 +45,7 @@ import dagger.Provides;
    */
   @Provides @Singleton public TurnByTurnHttpHandler provideTurnByTurnHttpHandler() {
     final TurnByTurnHttpHandler handler = new TurnByTurnHttpHandler();
-    handler.setApiKey(MapzenManager.instance(context).getApiKey());
+    handler.setApiKey(MapzenManager.instance(context, true).getApiKey());
     return handler;
   }
 }
