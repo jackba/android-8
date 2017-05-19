@@ -1,17 +1,17 @@
 package com.mapzen.android.sdk.sample;
 
-import com.mapzen.android.graphics.MapFragment;
-import com.mapzen.android.graphics.MapzenMap;
-import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 /**
  * Basic SDK demo, tracks user's current location on map.
@@ -22,7 +22,8 @@ public class BasicMapzenActivity extends BaseDemoActivity
   private static final String KEY_LOCATION_ENABLED = "enabled";
   private static final String TAG = BasicMapzenActivity.class.getSimpleName();
 
-  private MapzenMap map;
+  private MapboxMap map;
+  private MapView mapView;
 
   /**
    * To conserve resources, {@link MapzenMap#setMyLocationEnabled} is set to false when
@@ -32,6 +33,8 @@ public class BasicMapzenActivity extends BaseDemoActivity
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Mapbox.getInstance(this, "MAPBOX_API_KEY_HERE");
+
     setContentView(R.layout.activity_spinner);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -51,14 +54,11 @@ public class BasicMapzenActivity extends BaseDemoActivity
 
     final long millis = System.currentTimeMillis();
 
-    final MapFragment mapFragment =
-        (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    mapFragment.getMapAsync(new OnMapReadyCallback() {
-      @Override public void onMapReady(MapzenMap map) {
-        long now = System.currentTimeMillis();
-        long elapsedTime = now - millis;
-        Log.d(TAG, "onMapReady [" + elapsedTime + "] millis");
-        BasicMapzenActivity.this.map = map;
+    mapView = (MapView) findViewById(R.id.map_view);
+    mapView.onCreate(savedInstanceState);
+    mapView.getMapAsync(new OnMapReadyCallback() {
+      @Override public void onMapReady(MapboxMap mapboxMap) {
+        BasicMapzenActivity.this.map = mapboxMap;
         configureMap(enabled);
       }
     });
@@ -68,28 +68,45 @@ public class BasicMapzenActivity extends BaseDemoActivity
     if (enabled) {
       setMyLocationEnabled(true);
     }
-    map.setFindMeOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        Toast.makeText(BasicMapzenActivity.this, R.string.custom_listener, Toast.LENGTH_SHORT)
-            .show();
-      }
-    });
+  }
 
-    map.setCompassButtonEnabled(true);
-    map.setZoomButtonsEnabled(true);
-    map.setPersistMapState(true);
+  @Override protected void onStart() {
+    super.onStart();
+    mapView.onStart();
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    mapView.onResume();
   }
 
   @Override protected void onPause() {
     super.onPause();
+    mapView.onPause();
     if (map != null && map.isMyLocationEnabled()) {
       map.setMyLocationEnabled(false);
     }
   }
 
+  @Override protected void onStop() {
+    super.onStop();
+    mapView.onStop();
+  }
+
+  @Override public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    super.onSaveInstanceState(outState, outPersistentState);
+    mapView.onSaveInstanceState(outState);
+  }
+
+  @Override public void onLowMemory() {
+    super.onLowMemory();
+    mapView.onLowMemory();
+  }
+
   @Override protected void onDestroy() {
     super.onDestroy();
-    map.setFindMeOnClickListener(null);
+    mapView.onDestroy();
+    setMyLocationEnabled(false);
   }
 
   @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -115,6 +132,10 @@ public class BasicMapzenActivity extends BaseDemoActivity
   }
 
   private void setMyLocationEnabled(boolean enabled) {
+    if (map == null) {
+      return;
+    }
+    map.getMyLocationViewSettings().setEnabled(enabled);
     map.setMyLocationEnabled(enabled);
     enableLocationOnResume = enabled;
   }

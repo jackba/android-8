@@ -57,6 +57,9 @@ task checkstyle(type: Checkstyle) {
 }
 
 dependencies {
+  compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:5.1.0-SNAPSHOT@aar') {
+    transitive=true
+  }
   compile project(':core')
   compile ('com.mapzen:on-the-road:1.2.0') {
     exclude group: 'com.squareup.retrofit2', module: 'converter-gson'
