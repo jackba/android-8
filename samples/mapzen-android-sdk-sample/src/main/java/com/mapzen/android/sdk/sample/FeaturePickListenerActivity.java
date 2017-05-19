@@ -4,6 +4,7 @@ import com.mapzen.android.graphics.FeaturePickListener;
 import com.mapzen.android.graphics.MapFragment;
 import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
@@ -53,20 +54,19 @@ public class FeaturePickListenerActivity extends BaseDemoActivity {
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
         map.setFeaturePickListener(listener);
-        showSearchResults();
+        showPolygon();
       }
     });
   }
 
-  private void showSearchResults() {
-    LngLat result3 = new LngLat(-122.392799, 37.782511);
-    LngLat result4 = new LngLat(-122.397477, 37.788243);
-    LngLat result5 = new LngLat(-122.393528, 37.789227);
-    List<LngLat> results = new ArrayList();
-    results.add(result3);
-    results.add(result4);
-    results.add(result5);
-    map.drawSearchResults(results, 1);
+  private void showPolygon() {
+    Polygon polygon = new Polygon.Builder()
+        .add(new LngLat(-122.392799, 37.782511))
+        .add(new LngLat(-122.397477, 37.788243))
+        .add(new LngLat(-122.393528, 37.789227))
+        .add(new LngLat(-122.392799, 37.782511))
+        .build();
+    map.addPolygon(polygon);
   }
 
 }

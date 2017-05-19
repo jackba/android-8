@@ -23,6 +23,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
@@ -924,7 +925,9 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
   }
 
   private MapData addPolygonToPolygonMapData(List<List<LngLat>> coordinates) {
-    MapData mapData = polygonMapData.addPolygon(coordinates, null);
+    Map<String, String> properties = new HashMap<>();
+    properties.put("polygon", "polygon");
+    MapData mapData = polygonMapData.addPolygon(coordinates, properties);
     mapController.requestRender();
     return mapData;
   }
